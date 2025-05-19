@@ -33,8 +33,9 @@ if [ "$ID" = "current" ]; then
     echo -e "-----------------------------------------------------\t--------------------------------\t--------------------"
 
     # 找出所有當前的 JAR 檔案並顯示其 MD5SUM 和修改時間
-    find "$(dirname "$0")/MMBService" -name "*.jar" | sort | while read -r jar_file; do
-      rel_path=${jar_file#$(dirname "$0")/}
+    find "$MMB_DEPLOY_HOME" -name "*.jar" | sort | while read -r jar_file; do
+      rel_path=${jar_file#$MMB_DEPLOY_HOME/}
+      rel_path="MMBService/$rel_path"
       md5=$(md5sum "$jar_file" | cut -d' ' -f1)
       mtime=$(ls -al "$jar_file" | awk '{print $6" "$7" "$8}')
       echo -e "$rel_path\t$md5\t$mtime"
@@ -42,7 +43,7 @@ if [ "$ID" = "current" ]; then
   ) | column -t -s $'\t' | sed 's/^/  /'
 
   echo ""
-  echo "當前系統中的JAR檔案"
+  echo "當前系統中的JAR檔案 (來自 $MMB_DEPLOY_HOME)"
   exit 0
 fi
 
