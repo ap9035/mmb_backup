@@ -9,6 +9,11 @@ if [ -z "$ARCHIVED_HOME" ]; then
   exit 1
 fi
 
+if [ -z "$MMB_DEPLOY_HOME" ]; then
+  echo "請設定 MMB_DEPLOY_HOME 環境變數"
+  exit 1
+fi
+
 # 檢查備份清單是否存在
 BACKUP_LIST="$ARCHIVED_HOME/backup_list.txt"
 if [ ! -f "$BACKUP_LIST" ]; then
